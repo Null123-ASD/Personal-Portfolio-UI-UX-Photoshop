@@ -30,6 +30,22 @@ Eamil：louzip123@yahoo.com
 ![kuga_1](https://github.com/user-attachments/assets/ee538628-c1d1-4090-b767-f929aca528b5)
 
 
+![pepsi_P_ps](https://github.com/user-attachments/assets/30271657-6b6b-44ba-86d7-58545d3bcb37)
+
+
+![28](https://github.com/user-attachments/assets/e06a3b4d-a536-48eb-a23c-e3744e43f8c8)
+
+
+![Light_Diagram_ps](https://github.com/user-attachments/assets/65a67778-cbf7-47fb-ac1d-3f40712c5074)
+
+
+![carte_front_ps](https://github.com/user-attachments/assets/30dc10bf-034d-468e-b00d-27f8fd5b1b5c)
+
+
+![carte_back_ps](https://github.com/user-attachments/assets/c0540d86-8fab-45f1-b0c9-72b7766106c2)
+
+
+
 ![kuga_1_1](https://github.com/user-attachments/assets/e010ce65-c5b8-48e8-be02-d998ac65a73c)
 
 
