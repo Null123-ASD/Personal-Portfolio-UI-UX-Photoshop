@@ -1,5 +1,4 @@
-# Photoshop_Design
-Design categories: --Fashion and art themes --Nature and activities themes --Modern and business themes --Society and sports themes
+# Personal Portfolio – UI/UX & Photoshop Design
 
 This artwork is a personal creative project for portfolio display. All content is either original or inspired by public domain resources. If any copyrighted material is unintentionally included, it will be removed upon request, and I respect the intellectual property rights of all creators.
 
