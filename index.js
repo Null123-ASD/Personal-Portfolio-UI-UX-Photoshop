@@ -1,3 +1,46 @@
+// 每张图的标题/说明（索引 0 占位，从 1 开始用）
+const titles = [
+  "", // 占位，不用
+  "Fashion & Art - Original Character",
+  "BOOOOM!!! - Illustration Design",
+  "Why am I so sad, don't cry baby - Illustration Design.",
+  "Fashion & Art - 2025 Fashion Exhibition",
+  "Business Card Design 1",
+  "Business Card Design 2",
+  "Summer Soul 2023 - KUUGA(Growing Form 1)",
+  "Summer Soul 2023 - KUUGA(Mighty Form 1)",
+  "Modern & Business - Restaurant Menu",
+  "Summer Soul 2023 - KUUGA(Ultimate Form)",
+  "UI Mobile App - Random Gifts App",
+  "Modern & Business - Portfolio Website",
+  "Perfect - Illustration Design",
+  "Character Posters - KUUGA(Growing Form)",
+  "Chinese Character Creative Design",
+  "Character Posters - KUUGA(Ultimate Form)",
+  "Travel - Poster",
+  "Pepsi - Promotional Poster 1",
+  "Fashion & Art  - Photography Poster",
+  "Restaurant Promotion - Poster",
+  "Skateboarding Competition - Poster",
+  "Character Posters - KUUGA(Mighty Form)",
+  "UI Mobile App - Android TTS OCR Converter",
+  "Summer Soul 2023 (Mighty Form 2)",
+  "Flower Viewing Festival",
+  "Modern & Business - Game Website",
+  "Pepsi - Ad Design",
+  "Pepsi Promotional Poster 2",
+  "Chage - Packaging Design 1",
+  "Chage - Shopping Bag Display 1",
+  "Chage - Shopping Bag Display 2",
+  "Chage - Packaging Design 2",
+  "Chage - Shopping Bag Display 3",
+  "LOGO - Design ",
+  "Lost in Thought - Illustration Design",
+  "Fashion & Art - Fashion",
+  "Summer Soul 2023 (Growing Form 2)"
+];
+
+
 function showSection(sectionId) {
     const sections = document.getElementsByClassName('section');
     for (let section of sections) {
@@ -21,31 +64,43 @@ function showSection(sectionId) {
 const container = document.querySelector('.portfolio-section');
 let img_width = 380;
 let loadedCount = 0;
-let totalImgs = 36;
+let totalImgs = 37;
+
 
 function createImgs() {
-    for (let i = 1; i <= totalImgs; i++) {
-        let src = 'image_ps/' + i + '.jpg';
-        let img = document.createElement('img');
-        img.src = src;
-        img.width = img_width;
-        img.onload = () => {
-            loadedCount++;
-            if (loadedCount === totalImgs) {
-                // 等待一帧，确保 DOM 渲染完成再执行布局
-                requestAnimationFrame(() => {
-                    setTimeout(() => {
-                        setPositions();
-                    }, 0);
-                });
-            }
-        };
-        container.appendChild(img);
-    }
+  for (let i = 1; i <= totalImgs; i++) {
+    // 外层容器
+    const item = document.createElement('div');
+    item.className = 'portfolio-item';
+    item.style.width = img_width + 'px';
+
+    // 图片
+    const img = document.createElement('img');
+    img.src = `image_ps/${i}.jpg`;
+    img.width = img_width;
+
+    // 覆盖层（按 titles 数组取对应文字）
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.innerHTML = `<div>${titles[i] || "Project " + i}</div>`;
+
+    item.appendChild(img);
+    item.appendChild(overlay);
+    container.appendChild(item);
+
+    img.onload = () => {
+      loadedCount++;
+      // 如果当前已经在 portfolio 页，加载完就排一次
+      if (loadedCount === totalImgs &&
+          document.getElementById('portfolio').classList.contains('active')) {
+        setPositions();
+      }
+    };
+  }
 }
 
 createImgs();
-createImgs();
+
 
 function cal(){
     let container_width=container.clientWidth;
@@ -60,29 +115,36 @@ function cal(){
 }
 
 
-function setPositions(){
-    
-    let info=cal();
- 
-    let next_tops=new Array(info.columns);
-    
-    next_tops.fill(0);
-    for(let i=0;i<container.children.length;i++){
-        let img=container.children[i];
-     
-        let min_top=Math.min.apply(null,next_tops);
-        img.style.top=min_top+'px';
-     
-        let index=next_tops.indexOf(min_top); 
-        next_tops[index]+=img.height+info.space;
-     
-        let left=(index+1)*info.space+index*img_width;
-        img.style.left=left+'px';
-    }
- 
-    let max=Math.max.apply(null,next_tops);
-    container.style.height=max+'px';
+function setPositions() {
+  const info = cal();
+  if (!info.columns || info.columns <= 0) {
+    // 在区块隐藏时先不排，等显示后再排
+    return;
+  }
+
+  const next_tops = new Array(info.columns).fill(0);
+
+  for (let i = 0; i < container.children.length; i++) {
+    const item = container.children[i];           // .portfolio-item
+    const img  = item.querySelector('img');
+
+    const minTop = Math.min(...next_tops);
+    const colIdx = next_tops.indexOf(minTop);
+
+    // 设容器位置
+    item.style.top  = minTop + 'px';
+    item.style.left = ((colIdx + 1) * info.space + colIdx * img_width) + 'px';
+
+    // 叠加该列高度（使用图片高度）
+    const h = img?.height || item.offsetHeight || 0;
+    next_tops[colIdx] += h + info.space;
+  }
+
+  const max = Math.max(...next_tops);
+  container.style.height = max + 'px';
 }
+
+
 
 
 let timer=null;
@@ -112,7 +174,7 @@ function buildBand(band) {
   document.body.removeChild(probe);
 
   if (step <= 0) {
-    console.warn("⚠️ step 宽度测量失败");
+    console.warn("error: step Width measurement failed");
     return;
   }
 

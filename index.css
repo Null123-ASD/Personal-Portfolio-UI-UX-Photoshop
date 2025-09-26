@@ -248,32 +248,49 @@ nav a:hover {
     portfolio
 ////////////////// */
 
-.portfolio-section {
-    width: 90%;
-    margin: 0 auto;
-    position: relative;
+.portfolio-section{
+  width: 90%;
+  margin: 0 auto;
+  position: relative; /* 保持不变，用作定位上下文 */
 }
 
-.portfolio-section img{
-    position: absolute;
-    transition: 0.3s;
+/* 容器由 JS 生成：.portfolio-item 包一张 <img> 和一个 .overlay */
+.portfolio-section .portfolio-item{
+  position: absolute;         /* 由 JS 计算 top/left */
+  width: 380px;               /* 与 index.js 的 img_width 一致 */
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform .3s ease;
 }
 
-.portfolio-section img:hover {
-    transform: scale(1.1);
+.portfolio-section .portfolio-item img{
+  width: 100%;
+  display: block;
+  transition: transform .4s ease;
+}
+.portfolio-section .portfolio-item:hover img{
+  transform: scale(1.06);
 }
 
-/* .portfolio-item {
-    margin: 1em 0;
+/* 半透明渐变覆盖层 + 文字 */
+.portfolio-section .overlay{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  opacity: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.7));
+  transition: opacity .25s ease;
+}
+.portfolio-section .portfolio-item:hover .overlay{
+  opacity: 1;
 }
 
-.portfolio-item img {
-    width: 100%;
-    max-width: 300px;
-    transition:transform 0.3s;
-}
-
- */
 
 
 /* ////////////////////
