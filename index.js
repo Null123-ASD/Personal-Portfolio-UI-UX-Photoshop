@@ -1,6 +1,7 @@
+// ================== Titles ==================
 // 每张图的标题/说明（索引 0 占位，从 1 开始用）
 const titles = [
-  "", // 占位，不用
+  "", // 占位
   "Fashion & Art - Original Character",
   "BOOOOM!!! - Illustration Design",
   "Why am I so sad, don't cry baby - Illustration Design.",
@@ -40,46 +41,40 @@ const titles = [
   "Summer Soul 2023 (Growing Form 2)"
 ];
 
-
+// ================== Section Control ==================
 function showSection(sectionId) {
-    const sections = document.getElementsByClassName('section');
-    for (let section of sections) {
-        section.classList.remove('active');
-    }
+  const sections = document.getElementsByClassName('section');
+  for (let section of sections) {
+    section.classList.remove('active');
+  }
 
-    const targetSection = document.getElementById(sectionId);
-    targetSection.classList.add('active');
+  const targetSection = document.getElementById(sectionId);
+  targetSection.classList.add('active');
 
-    // 等待显示后再布局
-    if (sectionId === 'portfolio') {
-        requestAnimationFrame(() => {
-            setTimeout(() => {
-                setPositions();
-            }, 0);
-        });
-    }
+  if (sectionId === 'portfolio') {
+    requestAnimationFrame(() => {
+      setPositions();
+    });
+  }
 }
 
-
+// ================== Portfolio Masonry ==================
 const container = document.querySelector('.portfolio-section');
-let img_width = 380;
+const img_width = 380;
 let loadedCount = 0;
-let totalImgs = 37;
-
+const totalImgs = 37;
 
 function createImgs() {
   for (let i = 1; i <= totalImgs; i++) {
-    // 外层容器
     const item = document.createElement('div');
     item.className = 'portfolio-item';
     item.style.width = img_width + 'px';
 
-    // 图片
     const img = document.createElement('img');
     img.src = `image_ps/${i}.jpg`;
     img.width = img_width;
 
-    // 覆盖层（按 titles 数组取对应文字）
+    // overlay
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
     overlay.innerHTML = `<div>${titles[i] || "Project " + i}</div>`;
@@ -89,8 +84,11 @@ function createImgs() {
     container.appendChild(item);
 
     img.onload = () => {
+      // 缓存计算后的高度，避免 setPositions 时触发回流
+      if (!img.dataset.h) {
+        img.dataset.h = img.naturalHeight * (img_width / img.naturalWidth);
+      }
       loadedCount++;
-      // 如果当前已经在 portfolio 页，加载完就排一次
       if (loadedCount === totalImgs &&
           document.getElementById('portfolio').classList.contains('active')) {
         setPositions();
@@ -98,74 +96,61 @@ function createImgs() {
     };
   }
 }
-
 createImgs();
 
-
-function cal(){
-    let container_width=container.clientWidth;
-    let columns=Math.floor(container_width/img_width);
-    let space_number=columns+1; 
-    let left_space=container_width-columns*img_width; 
-    let space=left_space/space_number; 
-    return {
-        space: space,
-        columns: columns
-    };
+function cal() {
+  const container_width = container.clientWidth;
+  const columns = Math.floor(container_width / img_width);
+  const space_number = columns + 1;
+  const left_space = container_width - columns * img_width;
+  const space = left_space / space_number;
+  return { space, columns };
 }
-
 
 function setPositions() {
   const info = cal();
-  if (!info.columns || info.columns <= 0) {
-    // 在区块隐藏时先不排，等显示后再排
-    return;
-  }
+  if (!info.columns || info.columns <= 0) return;
 
   const next_tops = new Array(info.columns).fill(0);
 
   for (let i = 0; i < container.children.length; i++) {
-    const item = container.children[i];           // .portfolio-item
-    const img  = item.querySelector('img');
+    const item = container.children[i];
+    const img = item.querySelector('img');
+
+    const h = parseInt(img.dataset.h) || img.height || item.offsetHeight || 0;
 
     const minTop = Math.min(...next_tops);
     const colIdx = next_tops.indexOf(minTop);
 
-    // 设容器位置
-    item.style.top  = minTop + 'px';
+    item.style.top = minTop + 'px';
     item.style.left = ((colIdx + 1) * info.space + colIdx * img_width) + 'px';
 
-    // 叠加该列高度（使用图片高度）
-    const h = img?.height || item.offsetHeight || 0;
     next_tops[colIdx] += h + info.space;
   }
 
-  const max = Math.max(...next_tops);
-  container.style.height = max + 'px';
+  container.style.height = Math.max(...next_tops) + 'px';
 }
 
+// ================== Resize Optimization ==================
+let resizeRaf = null;
+window.addEventListener('resize', () => {
+  if (resizeRaf) cancelAnimationFrame(resizeRaf);
+  resizeRaf = requestAnimationFrame(() => {
+    setPositions();
+    resizeRaf = null;
+  });
+});
 
-
-
-let timer=null;
-window.onresize=function(){
-    if(timer){
-        clearTimeout(timer);
-    }
-    timer=setTimeout(setPositions,100);
-}
-
+// ================== Bands (About Section) ==================
 function buildBand(band) {
   const inner = band.querySelector('.band-inner');
   if (!inner) return;
 
-  // 先保存原始 HTML（只存一次）
   if (!inner.dataset.base) {
     inner.dataset.base = inner.innerHTML;
   }
   inner.innerHTML = inner.dataset.base;
 
-  // 测量单组宽度
   const probe = document.createElement('div');
   probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;display:inline-flex;gap:2rem;';
   probe.innerHTML = inner.dataset.base;
@@ -179,14 +164,13 @@ function buildBand(band) {
   }
 
   let acc = inner.scrollWidth;
-  let limit = 20; // 最多重复 20 次，防止死循环
+  let limit = 20;
   while (acc < band.clientWidth + step && limit > 0) {
     inner.insertAdjacentHTML('beforeend', inner.dataset.base);
     acc = inner.scrollWidth;
     limit--;
   }
 
-  // 设置动画
   const dur = band.dataset.speed || 30;
   inner.style.setProperty('--step', step + 'px');
   inner.style.animationDuration = dur + 's';
@@ -196,31 +180,31 @@ function buildBand(band) {
 function buildAllBands() {
   document.querySelectorAll('.bands .band').forEach(buildBand);
 }
-
 window.addEventListener('load', buildAllBands);
 window.addEventListener('resize', () => {
   clearTimeout(window.__bandTimer);
   window.__bandTimer = setTimeout(buildAllBands, 300);
 });
 
-
-
-// 复制按钮
+// ================== Copy Button ==================
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.copy-btn');
   if (!btn) return;
   const text = btn.dataset.copy || '';
   if (!text) return;
-  navigator.clipboard.writeText(text).then(()=>{
+  navigator.clipboard.writeText(text).then(() => {
     const tip = document.querySelector('.copy-tip');
-    if (tip){ tip.classList.add('show'); setTimeout(()=> tip.classList.remove('show'), 1200); }
+    if (tip) {
+      tip.classList.add('show');
+      setTimeout(() => tip.classList.remove('show'), 1200);
+    }
   });
 });
 
-// 表单占位提交（阻止默认并用 mailto 兜底）
+// ================== Contact Form ==================
 const form = document.getElementById('contactForm');
-if (form){
-  form.addEventListener('submit', (e)=>{
+if (form) {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(form);
     const subject = encodeURIComponent(data.get('subject') || 'Contact from portfolio');
