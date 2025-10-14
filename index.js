@@ -5,7 +5,7 @@ const titles = [
   "Fashion & Art - Original Character",
   "BOOOOM!!! - Illustration Design",
   "Why am I so sad, don't cry baby - Illustration Design.",
-  "Fashion & Art - 2025 Fashion Exhibition",
+  "Fashion & Art - Fashionable Aunt",
   "Business Card Design 1",
   "Business Card Design 2",
   "Summer Soul 2023 - KUUGA(Growing Form 1)",
