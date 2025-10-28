@@ -748,6 +748,12 @@ nav a.active {
         font-size: clamp(2.5rem, 18vw, 5rem);
     }
     
+    .portfolio-section .portfolio-item {
+        /* 使用 left: 50% 和 transform 來確保圖片居中 */
+        left: 50% !important; 
+        transform: translateX(-50%); 
+    }
+
     .portfolio-filter button {
         width: 90%; 
     }

@@ -67,6 +67,10 @@ function showSection(sectionId) {
 
   if (sectionId === 'portfolio') {
     requestAnimationFrame(() => {
+      // 確保切換頁面時，寬度能重新計算
+      if (typeof updateItemWidths === 'function') {
+        updateItemWidths(); 
+      }
       setPositions(); 
     });
   }
@@ -76,15 +80,40 @@ function showSection(sectionId) {
 
 // ================== Portfolio Masonry ==================
 const container = document.querySelector('.portfolio-section');
-const img_width = 380;
+// const img_width = 380; 
 let loadedCount = 0;
 const totalImgs = 40;
 
+
+function getPortfolioItemWidth() {
+  const containerWidth = container.clientWidth; // .portfolio-section 的實際內容寬度
+  const screenWidth = window.innerWidth;
+  const gap = 20;
+
+  if (screenWidth >= 1800) {
+    const columns = 5;
+    return Math.floor((containerWidth - gap * (columns - 1)) / columns);
+  } else if (screenWidth >= 768) {
+    const columns = 4;
+    return Math.floor((containerWidth - gap * (columns - 1)) / columns);
+  } else if (screenWidth >= 576) {
+    const columns = 2;
+    return Math.floor((containerWidth - gap * (columns - 1)) / columns);
+  } else {
+    // 小手機 (1 欄): 設置為容器寬度的 90% (例如：0.9)
+    const scaleFactor = 0.9; 
+    return Math.floor(containerWidth * scaleFactor); 
+  }
+}
+
+
 function createImgs() {
+  const initial_item_width = getPortfolioItemWidth(); 
+
   for (let i = 1; i <= totalImgs; i++) {
     const item = document.createElement('div');
     item.className = 'portfolio-item';
-    item.style.width = img_width + 'px';
+    item.style.width = initial_item_width + 'px'; 
 
     if ([11, 12, 23, 26, 38, 39, 40].includes(i)) {
       item.dataset.category = "uiux";
@@ -96,7 +125,7 @@ function createImgs() {
 
     const img = document.createElement('img');
     img.src = `image_ps/${i}.jpg`;
-    img.width = img_width;
+    img.width = initial_item_width; 
 
     // overlay
     const overlay = document.createElement('div');
@@ -107,10 +136,12 @@ function createImgs() {
     item.appendChild(overlay);
     container.appendChild(item);
 
+    const current_item_width = initial_item_width; 
+
     img.onload = () => {
       // 缓存计算后的高度，避免 setPositions 时触发回流
       if (!img.dataset.h) {
-        img.dataset.h = img.naturalHeight * (img_width / img.naturalWidth);
+        img.dataset.h = img.naturalHeight * (current_item_width / img.naturalWidth); 
       }
       loadedCount++;
       if (loadedCount === totalImgs &&
@@ -141,50 +172,88 @@ filterButtons.forEach(btn => {
 });
 
 
-
 function cal() {
   const container_width = container.clientWidth;
-  const columns = Math.floor(container_width / img_width);
+  
+  const item_width = getPortfolioItemWidth(); 
+  
+  if (item_width <= 0) {
+      return { space: 0, columns: 0, item_width: 0 };
+  }
+  
+  // 根據動態寬度計算欄位數
+  const columns = Math.max(1, Math.floor(container_width / item_width));
+  
   const space_number = columns + 1;
-  const left_space = container_width - columns * img_width;
+  const left_space = container_width - columns * item_width;
   const space = left_space / space_number;
-  return { space, columns };
+  
+  return { space, columns, item_width }; 
 }
 
 function setPositions() {
   const info = cal();
   if (!info.columns || info.columns <= 0) return;
 
-  const next_tops = new Array(info.columns).fill(0);
+  const { space, columns, item_width } = info; 
+
+  const next_tops = new Array(columns).fill(0);
 
   for (let i = 0; i < container.children.length; i++) {
     const item = container.children[i];
     const img = item.querySelector('img');
 
+    
+    item.style.width = item_width + 'px'; 
 
     if (item.style.display === "none") {
       item.style.top = "-9999px"; // 避免佔位
       continue;
     }
-    const h = parseInt(img.dataset.h) || img.height || item.offsetHeight || 0;
+   
+    const h = parseFloat(img.dataset.h) || item.offsetHeight || 0; 
 
     const minTop = Math.min(...next_tops);
     const colIdx = next_tops.indexOf(minTop);
 
     item.style.top = minTop + 'px';
-    item.style.left = ((colIdx + 1) * info.space + colIdx * img_width) + 'px';
+    item.style.left = ((colIdx + 1) * space + colIdx * item_width) + 'px';
 
-    next_tops[colIdx] += h + info.space;
+    next_tops[colIdx] += h + space;
   }
 
   container.style.height = Math.max(...next_tops) + 'px';
 }
+
+
+function updateItemWidths() {
+    const info = cal();
+    const newWidth = info.item_width;
+    
+    if (newWidth <= 0) return;
+
+    const firstItem = document.querySelector('.portfolio-item');
+    if (firstItem && firstItem.offsetWidth === newWidth) {
+        return; 
+    }
+
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+        item.style.width = newWidth + 'px';
+        const img = item.querySelector('img');
+        if (img && img.naturalWidth) {
+            // 重新計算並緩存新的高度
+            img.dataset.h = img.naturalHeight * (newWidth / img.naturalWidth);
+        }
+    });
+}
+
 
 // ================== Resize Optimization ==================
 let resizeRaf = null;
 window.addEventListener('resize', () => {
   if (resizeRaf) cancelAnimationFrame(resizeRaf);
   resizeRaf = requestAnimationFrame(() => {
+    updateItemWidths(); 
     setPositions();
     resizeRaf = null;
   });
