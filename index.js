@@ -93,7 +93,7 @@ function getPortfolioItemWidth() {
   if (screenWidth >= 1800) {
     const columns = 5;
     return Math.floor((containerWidth - gap * (columns - 1)) / columns);
-  } else if (screenWidth >= 768) {
+  } else if (screenWidth >= 992) {
     const columns = 4;
     return Math.floor((containerWidth - gap * (columns - 1)) / columns);
   } else if (screenWidth >= 576) {
