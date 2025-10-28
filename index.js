@@ -46,30 +46,18 @@ const titles = [
 
 
 // ================== Section Control ==================
-function showSection(sectionId) {
-  const sections = document.getElementsByClassName('section');
-  for (let section of sections) {
-    section.classList.remove('active');
-  }
-  const targetSection = document.getElementById(sectionId);
-  targetSection.classList.add('active');
-
-  const navLinks = document.querySelectorAll('nav a');
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    
-    const onclickAttr = link.getAttribute('onclick');
-    
-    if (onclickAttr && onclickAttr.includes(`'${sectionId}'`)) {
-        link.classList.add('active');
-    }
-  });
-
-  if (sectionId === 'portfolio') {
-    requestAnimationFrame(() => {
+function showSection(sectionId) { 
+  const sections = document.getElementsByClassName('section'); 
+  for (let section of sections) { 
+    section.classList.remove('active'); 
+  } 
+  const targetSection = document.getElementById(sectionId); 
+  targetSection.classList.add('active'); 
+  if (sectionId === 'portfolio') { 
+    requestAnimationFrame(() => { 
       setPositions(); 
-    });
-  }
+    }); 
+  } 
 }
 
 
