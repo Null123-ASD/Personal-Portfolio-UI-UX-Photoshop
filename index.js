@@ -38,8 +38,12 @@ const titles = [
   "LOGO - Design ",
   "Lost in Thought - Illustration Design",
   "Fashion & Art - Fashion",
-  "Summer Soul 2023 (Growing Form 2)"
+  "Summer Soul 2023 (Growing Form 2)",
+  "Random Gifts App - UI Design",
+  "Android TTS OCR Converter - UI Design",
+  "Personal Portfolio - UI Design"
 ];
+
 
 // ================== Section Control ==================
 function showSection(sectionId) {
@@ -47,28 +51,47 @@ function showSection(sectionId) {
   for (let section of sections) {
     section.classList.remove('active');
   }
-
   const targetSection = document.getElementById(sectionId);
   targetSection.classList.add('active');
 
+  const navLinks = document.querySelectorAll('nav a');
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    
+    const onclickAttr = link.getAttribute('onclick');
+    
+    if (onclickAttr && onclickAttr.includes(`'${sectionId}'`)) {
+        link.classList.add('active');
+    }
+  });
+
   if (sectionId === 'portfolio') {
     requestAnimationFrame(() => {
-      setPositions();
+      setPositions(); 
     });
   }
 }
+
 
 // ================== Portfolio Masonry ==================
 const container = document.querySelector('.portfolio-section');
 const img_width = 380;
 let loadedCount = 0;
-const totalImgs = 37;
+const totalImgs = 40;
 
 function createImgs() {
   for (let i = 1; i <= totalImgs; i++) {
     const item = document.createElement('div');
     item.className = 'portfolio-item';
     item.style.width = img_width + 'px';
+
+    if ([11, 12, 23, 26, 38, 39, 40].includes(i)) {
+      item.dataset.category = "uiux";
+    } else if ([1,2,3,4,5,6,9,13,14,15,16,19,20,21,22,25,35,36].includes(i)) {
+      item.dataset.category = "graphic";
+    } else {
+      item.dataset.category = "branding";
+    }
 
     const img = document.createElement('img');
     img.src = `image_ps/${i}.jpg`;
@@ -98,6 +121,26 @@ function createImgs() {
 }
 createImgs();
 
+
+const filterButtons = document.querySelectorAll(".portfolio-filter button");
+filterButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelector(".portfolio-filter button.active").classList.remove("active");
+    btn.classList.add("active");
+    const filter = btn.dataset.filter;
+    document.querySelectorAll(".portfolio-item").forEach(item => {
+      if (filter === "all" || item.dataset.category === filter) {
+        item.style.display = "block";
+      } else {
+        item.style.display = "none";
+      }
+    });
+    setPositions(); // 重新排版
+  });
+});
+
+
+
 function cal() {
   const container_width = container.clientWidth;
   const columns = Math.floor(container_width / img_width);
@@ -117,6 +160,11 @@ function setPositions() {
     const item = container.children[i];
     const img = item.querySelector('img');
 
+
+    if (item.style.display === "none") {
+      item.style.top = "-9999px"; // 避免佔位
+      continue;
+    }
     const h = parseInt(img.dataset.h) || img.height || item.offsetHeight || 0;
 
     const minTop = Math.min(...next_tops);
