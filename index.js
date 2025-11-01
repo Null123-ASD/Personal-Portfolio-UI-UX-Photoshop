@@ -332,3 +332,164 @@ if (form) {
     window.location.href = `mailto:louzip123@yahoo.com?subject=${subject}&body=${body}`;
   });
 }
+
+
+// ================== Lightbox (僅特定作品有流程圖) ==================
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('.lightbox-img');
+const lightboxTitle = lightbox.querySelector('.lightbox-title');
+const lightboxDesc = lightbox.querySelector('.lightbox-desc');
+const lightboxClose = lightbox.querySelector('.lightbox-close');
+const btnPrev = lightbox.querySelector('.lightbox-prev');
+const btnNext = lightbox.querySelector('.lightbox-next');
+
+let currentIndex = -1;
+let showingProcess = false;
+
+// 🔹 這些作品才有流程圖
+const processItems = [11, 12, 23, 26, 38, 39, 40];
+
+// 🔹 流程圖對應的檔名（a1 ~ g1）
+const processMap = {
+  11: "a1.jpg",
+  12: "b1.jpg",
+  23: "c1.jpg",
+  26: "d1.jpg",
+  38: "e1.jpg",
+  39: "f1.jpg",
+  40: "g1.jpg",
+};
+
+// 🔹 每個流程圖的描述（你可自行修改成真實內容）
+const processDescriptions = {
+  a1: "Random Gifts App – UX wireflow showing reward logic and navigation design.",
+  b1: "Portfolio Website - Designed using Photoshop, employing three light sources as backgrounds to create blur and color shifts.",
+  c1: "Android TTS OCR Converter – user operation sequence and component linkage.",
+  d1: "Game Website - Designed using Photoshop, utilizing various geometric shapes for layout flow and page highlighting of game characters.",
+  e1: "UI redesign iteration – from wireframe to final visual mockups.",
+  f1: "Android OCR App – workflow of text recognition and TTS processing.",
+  g1: "Personal Portfolio – design lifecycle and responsive grid evolution."
+};
+
+// 🔹 主圖描述（摘要版，可留用原 titles[]）
+const descriptions = [
+  "", // 占位
+  "Fashion & Art - Original Character",
+  "BOOOOM!!! - Illustration Design",
+  "Why am I so sad, don't cry baby - Illustration Design.",
+  "Fashion & Art - Fashionable Aunt",
+  "Business Card Design 1",
+  "Business Card Design 2",
+  "Summer Soul 2023 - KUUGA(Growing Form 1)",
+  "Summer Soul 2023 - KUUGA(Mighty Form 1)",
+  "Modern & Business - Restaurant Menu",
+  "Summer Soul 2023 - KUUGA(Ultimate Form)",
+  "UI Mobile App - Random Gifts App",
+  "Modern & Business - Portfolio Website",
+  "Perfect - Illustration Design",
+  "Character Posters - KUUGA(Growing Form)",
+  "Chinese Character Creative Design",
+  "Character Posters - KUUGA(Ultimate Form)",
+  "Travel - Poster",
+  "Pepsi - Promotional Poster 1",
+  "Fashion & Art  - Photography Poster",
+  "Restaurant Promotion - Poster",
+  "Skateboarding Competition - Poster",
+  "Character Posters - KUUGA(Mighty Form)",
+  "UI Mobile App - Android TTS OCR Converter",
+  "Summer Soul 2023 (Mighty Form 2)",
+  "Flower Viewing Festival",
+  "Modern & Business - Game Website",
+  "Pepsi - Ad Design",
+  "Pepsi Promotional Poster 2",
+  "Chage - Packaging Design 1",
+  "Chage - Shopping Bag Display 1",
+  "Chage - Shopping Bag Display 2",
+  "Chage - Packaging Design 2",
+  "Chage - Shopping Bag Display 3",
+  "LOGO - Design ",
+  "Lost in Thought - Illustration Design",
+  "Fashion & Art - Fashion",
+  "Summer Soul 2023 (Growing Form 2)",
+  "Random Gifts App - UI Design",
+  "Android TTS OCR Converter - UI Design",
+  "Personal Portfolio - UI Design"
+];
+
+// ================== 核心功能 ==================
+
+// 開啟 Lightbox
+function openLightbox(index) {
+  currentIndex = index;
+  showingProcess = false;
+
+  const item = container.children[index];
+  const overlayText = item.querySelector('.overlay div').textContent;
+  const img = item.querySelector('img');
+
+  lightboxImg.src = img.src;
+  lightboxTitle.textContent = overlayText || "Untitled Project";
+  lightboxDesc.textContent = descriptions[index + 1] || "Design showcase.";
+
+  // 若此作品有流程圖，顯示按鈕
+  const hasProcess = processItems.includes(index + 1);
+  btnPrev.style.display = hasProcess ? "block" : "none";
+  btnNext.style.display = hasProcess ? "block" : "none";
+
+  lightbox.classList.add('show');
+}
+
+// 切換主圖 / 流程圖
+function toggleImage(next = true) {
+  if (currentIndex < 0) return;
+
+  const projectNum = currentIndex + 1;
+
+  // 若該作品沒有流程圖 → 不動作
+  if (!processItems.includes(projectNum)) return;
+
+  if (next && !showingProcess) {
+    // 顯示流程圖
+    const filename = processMap[projectNum];
+    lightboxImg.src = `image_ps/${filename}`;
+    const key = filename.replace(".jpg", "");
+    lightboxDesc.textContent = processDescriptions[key] || "Design process flow.";
+    showingProcess = true;
+  } else {
+    // 返回主圖
+    const mainImg = container.children[currentIndex].querySelector('img');
+    lightboxImg.src = mainImg.src;
+    lightboxDesc.textContent = descriptions[projectNum] || "Design showcase.";
+    showingProcess = false;
+  }
+}
+
+// 關閉 Lightbox
+function closeLightbox() {
+  lightbox.classList.remove("show");
+  currentIndex = -1;
+  showingProcess = false;
+}
+
+// ================== 綁定事件 ==================
+document.querySelectorAll(".portfolio-item").forEach((item, i) => {
+  item.addEventListener("click", () => openLightbox(i));
+});
+
+btnNext.addEventListener("click", () => toggleImage(true));
+btnPrev.addEventListener("click", () => toggleImage(false));
+lightboxClose.addEventListener("click", closeLightbox);
+
+lightbox.addEventListener("click", e => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("show")) return;
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") toggleImage(true);
+});
+
+
+
+
