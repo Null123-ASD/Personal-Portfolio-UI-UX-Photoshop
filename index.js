@@ -38,7 +38,7 @@ const titles = [
   "LOGO - Design ",
   "Lost in Thought - Illustration Design",
   "Fashion & Art - Fashion",
-  "Summer Soul 2023 (Growing Form 2)",
+  "Lamborghini - Visual Poster",
   "Random Gifts App - UI Design",
   "Android TTS OCR Converter - UI Design",
   "Personal Portfolio - UI Design"
@@ -410,7 +410,7 @@ const descriptions = [
   "LOGO - Design ",
   "Lost in Thought - Illustration Design",
   "Fashion & Art - Fashion",
-  "Summer Soul 2023 (Growing Form 2)",
+  "Lamborghini - Visual Poster",
   "Random Gifts App - UI Design",
   "Android TTS OCR Converter - UI Design",
   "Personal Portfolio - UI Design"
