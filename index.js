@@ -346,32 +346,32 @@ const btnNext = lightbox.querySelector('.lightbox-next');
 let currentIndex = -1;
 let showingProcess = false;
 
-// 🔹 這些作品才有流程圖
+
 const processItems = [11, 12, 23, 26, 38, 39, 40];
 
-// 🔹 流程圖對應的檔名（a1 ~ g1）
+
 const processMap = {
   11: "a1.jpg",
-  12: "b1.jpg",
+  12: "b1.gif", 
   23: "c1.jpg",
-  26: "d1.jpg",
+  26: "d1.gif",
   38: "e1.jpg",
   39: "f1.jpg",
   40: "g1.jpg",
 };
 
-// 🔹 每個流程圖的描述（你可自行修改成真實內容）
+
 const processDescriptions = {
   a1: "Random Gifts App – UX wireflow showing reward logic and navigation design.",
-  b1: "Portfolio Website - Designed using Photoshop, employing three light sources as backgrounds to create blur and color shifts.",
+  b1: "Portfolio Website – Responsive layout demonstration (GIF).", // 🔑 已修改描述以符合 GIF 內容
   c1: "Android TTS OCR Converter – user operation sequence and component linkage.",
-  d1: "Game Website - Designed using Photoshop, utilizing various geometric shapes for layout flow and page highlighting of game characters.",
+  d1: "Game Website - Designed using Photoshop, Responsive layout demonstration (GIF).",
   e1: "UI redesign iteration – from wireframe to final visual mockups.",
   f1: "Android OCR App – workflow of text recognition and TTS processing.",
   g1: "Personal Portfolio – design lifecycle and responsive grid evolution."
 };
 
-// 🔹 主圖描述（摘要版，可留用原 titles[]）
+
 const descriptions = [
   "", // 占位
   "Fashion & Art - Original Character",
@@ -452,7 +452,8 @@ function toggleImage(next = true) {
     // 顯示流程圖
     const filename = processMap[projectNum];
     lightboxImg.src = `image_ps/${filename}`;
-    const key = filename.replace(".jpg", "");
+    // 確保移除所有可能的圖片副檔名 (.jpg 或 .gif)，以匹配 description key
+    const key = filename.replace(".jpg", "").replace(".gif", "");
     lightboxDesc.textContent = processDescriptions[key] || "Design process flow.";
     showingProcess = true;
   } else {
@@ -487,9 +488,6 @@ lightbox.addEventListener("click", e => {
 document.addEventListener("keydown", e => {
   if (!lightbox.classList.contains("show")) return;
   if (e.key === "Escape") closeLightbox();
-  if (e.key === "ArrowRight" || e.key === "ArrowLeft") toggleImage(true);
+  if (e.key === "ArrowRight") toggleImage(true);
+  if (e.key === "ArrowLeft") toggleImage(false); // 修正：應允許左鍵返回主圖
 });
-
-
-
-
