@@ -1,5 +1,4 @@
 // ================== Titles ==================
-// 每张图的标题/说明（索引 0 占位，从 1 开始用）
 const titles = [
   "", // 占位
   "Fashion & Art - Original Character",
@@ -126,6 +125,9 @@ function createImgs() {
     const img = document.createElement('img');
     img.src = `image_ps/${i}.jpg`;
     img.width = initial_item_width; 
+    
+    // 應用延遲加載，解決圖片加載慢的問題 (新加)
+    img.setAttribute('loading', 'lazy'); 
 
     // overlay
     const overlay = document.createElement('div');
@@ -144,6 +146,7 @@ function createImgs() {
         img.dataset.h = img.naturalHeight * (current_item_width / img.naturalWidth); 
       }
       loadedCount++;
+      // 確保所有圖片載入後再進行排版
       if (loadedCount === totalImgs &&
           document.getElementById('portfolio').classList.contains('active')) {
         setPositions();
@@ -334,9 +337,10 @@ if (form) {
 }
 
 
-// ================== Lightbox (僅特定作品有流程圖) ==================
+// ================== Lightbox (僅特定作品有流程圖/原型/影片) ==================
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = lightbox.querySelector('.lightbox-img');
+const lightboxVideo = lightbox.querySelector('.lightbox-video'); 
 const lightboxTitle = lightbox.querySelector('.lightbox-title');
 const lightboxDesc = lightbox.querySelector('.lightbox-desc');
 const lightboxClose = lightbox.querySelector('.lightbox-close');
@@ -346,31 +350,38 @@ const btnNext = lightbox.querySelector('.lightbox-next');
 let currentIndex = -1;
 let showingProcess = false;
 
-
 const processItems = [11, 12, 23, 26, 38, 39, 40];
+
+const processTypes = {
+  11: "image",
+  12: "video", 
+  23: "image",
+  26: "video", 
+  38: "image",
+  39: "image",
+  40: "image",
+};
 
 
 const processMap = {
   11: "a1.jpg",
-  12: "b1.gif", 
+  12: "b1.mp4", 
   23: "c1.jpg",
-  26: "d1.gif",
+  26: "d1.mp4", 
   38: "e1.jpg",
   39: "f1.jpg",
   40: "g1.jpg",
 };
 
-
 const processDescriptions = {
   a1: "Random Gifts App – UX wireflow showing reward logic and navigation design.",
-  b1: "Portfolio Website – Responsive layout demonstration (GIF).", // 🔑 已修改描述以符合 GIF 內容
+  b1: "Portfolio Website – Responsive layout demonstration (MP4 Video).", 
   c1: "Android TTS OCR Converter – user operation sequence and component linkage.",
-  d1: "Game Website - Designed using Photoshop, Responsive layout demonstration (GIF).",
+  d1: "Game Website - Prototype video showcasing user interaction flow.", 
   e1: "UI redesign iteration – from wireframe to final visual mockups.",
   f1: "Android OCR App – workflow of text recognition and TTS processing.",
   g1: "Personal Portfolio – design lifecycle and responsive grid evolution."
 };
-
 
 const descriptions = [
   "", // 占位
@@ -418,7 +429,17 @@ const descriptions = [
 
 // ================== 核心功能 ==================
 
-// 開啟 Lightbox
+
+function hideLightboxMedia() {
+
+    lightboxImg.style.display = 'none';
+ 
+    lightboxVideo.style.display = 'none';
+    lightboxVideo.pause();
+    lightboxVideo.removeAttribute('src'); 
+}
+
+
 function openLightbox(index) {
   currentIndex = index;
   showingProcess = false;
@@ -426,53 +447,74 @@ function openLightbox(index) {
   const item = container.children[index];
   const overlayText = item.querySelector('.overlay div').textContent;
   const img = item.querySelector('img');
+  const projectNum = index + 1;
+
+  hideLightboxMedia();
 
   lightboxImg.src = img.src;
+  lightboxImg.style.display = 'block';
   lightboxTitle.textContent = overlayText || "Untitled Project";
-  lightboxDesc.textContent = descriptions[index + 1] || "Design showcase.";
+  lightboxDesc.textContent = descriptions[projectNum] || "Design showcase.";
 
-  // 若此作品有流程圖，顯示按鈕
-  const hasProcess = processItems.includes(index + 1);
+  const hasProcess = processItems.includes(projectNum);
   btnPrev.style.display = hasProcess ? "block" : "none";
   btnNext.style.display = hasProcess ? "block" : "none";
 
   lightbox.classList.add('show');
 }
 
-// 切換主圖 / 流程圖
+// 切換主圖 / 流程圖/影片
 function toggleImage(next = true) {
   if (currentIndex < 0) return;
 
   const projectNum = currentIndex + 1;
 
-  // 若該作品沒有流程圖 → 不動作
   if (!processItems.includes(projectNum)) return;
+  
+  const contentType = processTypes[projectNum];
 
   if (next && !showingProcess) {
-    // 顯示流程圖
     const filename = processMap[projectNum];
-    lightboxImg.src = `image_ps/${filename}`;
-    // 確保移除所有可能的圖片副檔名 (.jpg 或 .gif)，以匹配 description key
-    const key = filename.replace(".jpg", "").replace(".gif", "");
-    lightboxDesc.textContent = processDescriptions[key] || "Design process flow.";
+    const key = filename.replace(/\.(jpg|gif|png|mp4)$/i, ""); 
+    lightboxDesc.textContent = processDescriptions[key] || "Design process flow or prototype.";
+    
+    hideLightboxMedia();
+
+    if (contentType === 'video') {
+        lightboxVideo.src = `image_ps/${filename}`;
+        lightboxVideo.style.display = 'block';
+        lightboxVideo.load(); // 重新載入影片
+        lightboxVideo.play();
+    } else {
+    
+        lightboxImg.src = `image_ps/${filename}`;
+        lightboxImg.style.display = 'block';
+    }
+    
     showingProcess = true;
+
   } else {
     // 返回主圖
     const mainImg = container.children[currentIndex].querySelector('img');
+    
+    hideLightboxMedia();
+    
     lightboxImg.src = mainImg.src;
+    lightboxImg.style.display = 'block';
     lightboxDesc.textContent = descriptions[projectNum] || "Design showcase.";
     showingProcess = false;
   }
 }
 
-// 關閉 Lightbox
+
 function closeLightbox() {
   lightbox.classList.remove("show");
   currentIndex = -1;
   showingProcess = false;
+  // 關閉時停止播放並清除影片來源
+  hideLightboxMedia();
 }
 
-// ================== 綁定事件 ==================
 document.querySelectorAll(".portfolio-item").forEach((item, i) => {
   item.addEventListener("click", () => openLightbox(i));
 });
@@ -485,9 +527,9 @@ lightbox.addEventListener("click", e => {
   if (e.target === lightbox) closeLightbox();
 });
 
+// 鍵盤事件
 document.addEventListener("keydown", e => {
   if (!lightbox.classList.contains("show")) return;
   if (e.key === "Escape") closeLightbox();
-  if (e.key === "ArrowRight") toggleImage(true);
-  if (e.key === "ArrowLeft") toggleImage(false); // 修正：應允許左鍵返回主圖
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") toggleImage(true); 
 });
