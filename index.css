@@ -260,20 +260,13 @@ nav a.active {
   position: relative; /* 保持不变，用作定位上下文 */
 }
 
-
+/* 容器由 JS 生成：.portfolio-item 包一张 <img> 和一个 .overlay */
 .portfolio-section .portfolio-item{
   position: absolute;         
   width: 380px;               
   overflow: hidden;
   border-radius: 8px;
-  transition: 
-    transform .3s ease,     
-    top 0.3s ease-out,       
-    left 0.3s ease-out;       
-  
-  will-change: top, left; 
-  opacity: 1; 
-  min-height: 200px;
+  transition: transform .3s ease;
 }
 
 .portfolio-section .portfolio-item img{
