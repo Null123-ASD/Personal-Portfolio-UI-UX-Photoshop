@@ -45,6 +45,8 @@ const titles = [
 
 
 // ================== Section Control ==================
+let portfolioLoaded = false; // 新增變量：標記是否已經加載過
+
 function showSection(sectionId) {
   const sections = document.getElementsByClassName('section');
   for (let section of sections) {
@@ -56,15 +58,19 @@ function showSection(sectionId) {
   const navLinks = document.querySelectorAll('nav a');
   navLinks.forEach(link => {
     link.classList.remove('active');
-    
     const onclickAttr = link.getAttribute('onclick');
-    
     if (onclickAttr && onclickAttr.includes(`'${sectionId}'`)) {
         link.classList.add('active');
     }
   });
 
   if (sectionId === 'portfolio') {
+    // 【核心修復】只有當第一次切換到 Portfolio 時，且容器可見了，才生成圖片
+    if (!portfolioLoaded) {
+      createImgs(); 
+      portfolioLoaded = true;
+    }
+
     requestAnimationFrame(() => {
       // 確保切換頁面時，寬度能重新計算
       if (typeof updateItemWidths === 'function') {
@@ -108,6 +114,7 @@ function getPortfolioItemWidth() {
 
 function createImgs() {
   const initial_item_width = getPortfolioItemWidth(); 
+  let layoutTimer = null; 
 
   for (let i = 1; i <= totalImgs; i++) {
     const item = document.createElement('div');
@@ -122,14 +129,15 @@ function createImgs() {
       item.dataset.category = "branding";
     }
 
+    // 【新增功能】在這裡直接綁定點擊事件
+    // i 是從 1 開始，但 openLightbox 索引是從 0 開始，所以要傳入 i - 1
+    item.addEventListener("click", () => openLightbox(i - 1));
+
     const img = document.createElement('img');
     img.src = `image_ps/${i}.jpg`;
     img.width = initial_item_width; 
-    
-    // 應用延遲加載，解決圖片加載慢的問題 (新加)
     img.setAttribute('loading', 'lazy'); 
 
-    // overlay
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
     overlay.innerHTML = `<div>${titles[i] || "Project " + i}</div>`;
@@ -138,23 +146,28 @@ function createImgs() {
     item.appendChild(overlay);
     container.appendChild(item);
 
-    const current_item_width = initial_item_width; 
-
     img.onload = () => {
-      // 缓存计算后的高度，避免 setPositions 时触发回流
+      const currentWidth = parseFloat(item.style.width) || initial_item_width;
       if (!img.dataset.h) {
-        img.dataset.h = img.naturalHeight * (current_item_width / img.naturalWidth); 
+        img.dataset.h = img.naturalHeight * (currentWidth / img.naturalWidth); 
       }
       loadedCount++;
-      // 確保所有圖片載入後再進行排版
-      if (loadedCount === totalImgs &&
-          document.getElementById('portfolio').classList.contains('active')) {
-        setPositions();
+      
+      if (document.getElementById('portfolio').classList.contains('active')) {
+          clearTimeout(layoutTimer);
+          layoutTimer = setTimeout(() => {
+              setPositions();
+          }, 100); 
       }
     };
   }
+
+  setTimeout(() => {
+      if (document.getElementById('portfolio').classList.contains('active')) {
+          setPositions();
+      }
+  }, 50);
 }
-createImgs();
 
 
 const filterButtons = document.querySelectorAll(".portfolio-filter button");
@@ -515,9 +528,9 @@ function closeLightbox() {
   hideLightboxMedia();
 }
 
-document.querySelectorAll(".portfolio-item").forEach((item, i) => {
-  item.addEventListener("click", () => openLightbox(i));
-});
+// document.querySelectorAll(".portfolio-item").forEach((item, i) => {
+//   item.addEventListener("click", () => openLightbox(i));
+// });
 
 btnNext.addEventListener("click", () => toggleImage(true));
 btnPrev.addEventListener("click", () => toggleImage(false));
