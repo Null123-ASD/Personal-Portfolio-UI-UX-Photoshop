@@ -370,8 +370,8 @@ const processTypes = {
   12: "video", 
   23: "image",
   26: "video", 
-  38: "image",
-  39: "image",
+  38: "video",
+  39: "video",
   40: "image",
 };
 
@@ -381,8 +381,8 @@ const processMap = {
   12: "b1.mp4", 
   23: "c1.jpg",
   26: "d1.mp4", 
-  38: "e1.jpg",
-  39: "f1.jpg",
+  38: "e1.mp4",
+  39: "f1.mp4",
   40: "g1.jpg",
 };
 
@@ -391,8 +391,8 @@ const processDescriptions = {
   b1: "Portfolio Website – Responsive layout demonstration (MP4 Video).", 
   c1: "Android TTS OCR Converter – user operation sequence and component linkage.",
   d1: "Game Website - Prototype video showcasing user interaction flow.", 
-  e1: "UI redesign iteration – from wireframe to final visual mockups.",
-  f1: "Android OCR App – workflow of text recognition and TTS processing.",
+  e1: "Random Gift App – Prototype Showcase(MP4 Video).",
+  f1: "Android OCR App – Prototype Showcase(MP4 Video).",
   g1: "Personal Portfolio – design lifecycle and responsive grid evolution."
 };
 
