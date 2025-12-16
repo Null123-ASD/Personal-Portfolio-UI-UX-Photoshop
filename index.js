@@ -40,7 +40,9 @@ const titles = [
   "Lamborghini - Visual Poster",
   "Random Gifts App - UI Design",
   "Android TTS OCR Converter - UI Design",
-  "Personal Portfolio - UI Design"
+  "Personal Portfolio - UI Design",
+  "Packaging Design Showcase",
+  "NACOSIL - 3D Packaging Design"
 ];
 
 
@@ -87,7 +89,7 @@ function showSection(sectionId) {
 const container = document.querySelector('.portfolio-section');
 // const img_width = 380; 
 let loadedCount = 0;
-const totalImgs = 40;
+const totalImgs = 42;
 
 
 function getPortfolioItemWidth() {
@@ -437,7 +439,10 @@ const descriptions = [
   "Lamborghini - Visual Poster",
   "Random Gifts App - UI Design",
   "Android TTS OCR Converter - UI Design",
-  "Personal Portfolio - UI Design"
+  "Personal Portfolio - UI Design",
+  "Packaging Design Showcase",
+  "NACOSIL - 3D Packaging Design"
+
 ];
 
 // ================== 核心功能 ==================
