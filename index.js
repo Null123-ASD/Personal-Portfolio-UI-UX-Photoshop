@@ -84,6 +84,28 @@ function showSection(sectionId) {
 }
 
 
+// ================== Hero 接 Loader ==================
+document.addEventListener("DOMContentLoaded", () => {
+  const fromLoader = sessionStorage.getItem("fromLoader");
+  const homeSection = document.getElementById("home");
+  const heroTitle = document.querySelector(".hero-title");
+
+  if (fromLoader && homeSection && heroTitle) {
+    // 標記狀態
+    homeSection.classList.add("hero-from-loader");
+
+    // 下一幀開始動畫
+    requestAnimationFrame(() => {
+      heroTitle.classList.add("hero-enter");
+    });
+
+    // 清除狀態，避免重新整理再跑
+    sessionStorage.removeItem("fromLoader");
+  }
+});
+
+
+
 
 // ================== Portfolio Masonry ==================
 const container = document.querySelector('.portfolio-section');

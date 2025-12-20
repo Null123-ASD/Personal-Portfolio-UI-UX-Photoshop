@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.loader {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 數字本體 */
+.loader-number {
+  position: absolute;
+
+  /* 起始位置：偏左下角，但不太遠 */
+  left: 35%;
+  top: 60%;
+
+  /* 起始大小：不要太小 */
+  font-size: clamp(4.5rem, 13vw, 15rem);
+
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+
+  transform: translate(-50%, -50%) scale(0.65);
+  transform-origin: center;
+
+  transition:
+    left 3s ease,
+    top 3s ease,
+    transform 3s ease,
+    font-size 3s ease,
+    opacity 0.6s ease;
+}
+
+/* 動畫完成狀態 */
+.loader-number.move-center {
+  left: 50%;
+  top: 50%;
+
+  /* 最終大小：你原本的視覺級別 */
+  font-size: clamp(6rem, 18vw, 20rem);
+
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* 結尾淡出 */
+.fade-out {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.15);
+}
