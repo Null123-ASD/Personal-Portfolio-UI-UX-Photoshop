@@ -22,18 +22,16 @@ body {
 .loader-number {
   position: absolute;
 
-  /* 起始位置：偏左下角，但不太遠 */
-  left: 35%;
-  top: 60%;
+  left: 50%;
+  top: 50%;
 
-  /* 起始大小：不要太小 */
   font-size: clamp(4.5rem, 13vw, 15rem);
 
   font-weight: 900;
   color: #fff;
   line-height: 1;
 
-  transform: translate(-50%, -50%) scale(0.65);
+  transform: translate(-65%, -35%) scale(0.65);
   transform-origin: center;
 
   transition:
@@ -49,13 +47,13 @@ body {
   left: 50%;
   top: 50%;
 
-  /* 最終大小：你原本的視覺級別 */
+  
   font-size: clamp(6rem, 18vw, 20rem);
 
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* 結尾淡出 */
+
 .fade-out {
   opacity: 0;
   transform: translate(-50%, -50%) scale(1.15);

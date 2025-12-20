@@ -5,10 +5,10 @@ const total = 100;
 
 // 時間配置
 const normalEnd = 97;
-const normalDuration = 2200; // 1–97
+const normalDuration = 2200; 
 const slowDuration = 800;    // 98–100
 
-// 啟動位置 + 尺寸動畫
+
 requestAnimationFrame(() => {
   numberEl.classList.add("move-center");
 });

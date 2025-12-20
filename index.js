@@ -84,7 +84,7 @@ function showSection(sectionId) {
 }
 
 
-// ================== Hero 接 Loader ==================
+// ================== Loader ==================
 document.addEventListener("DOMContentLoaded", () => {
   const fromLoader = sessionStorage.getItem("fromLoader");
   const homeSection = document.getElementById("home");
