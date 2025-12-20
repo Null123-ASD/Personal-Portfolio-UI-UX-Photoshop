@@ -4,14 +4,11 @@
   box-sizing: border-box;
 }
 
-:root {
-  --loader-vh: 100vh;
-}
-
 body {
   background: #000;
   width: 100vw;
-  height: var(--loader-vh);
+  height: 100vh;
+  height: 100dvh; 
   overflow: hidden;
   font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -19,59 +16,41 @@ body {
 .loader {
   position: relative;
   width: 100%;
-  height: var(--loader-vh);
+  height: 100%;
 }
 
-/* 數字本體 */
 .loader-number {
   position: absolute;
 
   left: 50%;
   top: 50%;
+  
+  width: 100%;
+  text-align: center;
 
   font-size: clamp(4.5rem, 13vw, 15rem);
-
   font-weight: 900;
   color: #fff;
   line-height: 1;
 
-  transform: translate(-65%, -35%) scale(0.65);
-  transform-origin: center;
+  transform: translate(-65%, 10%) scale(0.65); 
+  
+  will-change: transform, opacity;
+  -webkit-font-smoothing: antialiased;
 
   transition:
-    left 3s ease,
-    top 3s ease,
-    transform 3s ease,
-    font-size 3s ease,
+    transform 3s cubic-bezier(0.4, 0, 0.2, 1),
+    font-size 3s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.6s ease;
 }
 
-/* 動畫完成狀態 */
+
 .loader-number.move-center {
-  left: 50%;
-  top: 50%;
-
-  
-  font-size: clamp(6rem, 18vw, 20rem);
-
   transform: translate(-50%, -50%) scale(1);
+  font-size: clamp(6rem, 18vw, 20rem);
 }
-
 
 .fade-out {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(1.15);
-}
-
-
-@supports (height: 100svh) {
-  :root {
-    --loader-vh: 100svh;
-  }
-}
-
-@supports (height: 100dvh) {
-  :root {
-    --loader-vh: 100dvh;
-  }
+  transform: translate3d(-50%, -50%, 0) scale(1.15);
 }

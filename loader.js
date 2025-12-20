@@ -13,6 +13,14 @@ requestAnimationFrame(() => {
   numberEl.classList.add("move-center");
 });
 
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    requestAnimationFrame(() => {
+      numberEl.classList.add("move-center");
+    });
+  }, 50);
+});
+
 // 正常段間隔
 const normalInterval = normalDuration / normalEnd;
 
