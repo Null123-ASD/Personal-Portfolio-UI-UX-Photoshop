@@ -4,10 +4,14 @@
   box-sizing: border-box;
 }
 
+:root {
+  --loader-vh: 100vh;
+}
+
 body {
   background: #000;
   width: 100vw;
-  height: 100vh;
+  height: var(--loader-vh);
   overflow: hidden;
   font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -15,7 +19,7 @@ body {
 .loader {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: var(--loader-vh);
 }
 
 /* 數字本體 */
@@ -57,4 +61,17 @@ body {
 .fade-out {
   opacity: 0;
   transform: translate(-50%, -50%) scale(1.15);
+}
+
+
+@supports (height: 100svh) {
+  :root {
+    --loader-vh: 100svh;
+  }
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --loader-vh: 100dvh;
+  }
 }
