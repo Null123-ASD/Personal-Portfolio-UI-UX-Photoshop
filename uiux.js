@@ -68,11 +68,21 @@ function updateContent(projectId) {
         </div>
     `;
 
-    // 更新媒體軌道
+    // 更新video設置
     const track = document.getElementById('mediaTrack');
     track.innerHTML = data.media.map(item => {
-        if(item.type === 'img') return `<div class="media-item"><img src="${item.src}"></div>`;
-        return `<div class="media-item"><video src="${item.src}" autoplay loop muted playsinline></video></div>`;
+        if (item.type === 'img') {
+            return `<div class="media-item"><img src="${item.src}"></div>`;
+        }
+        return `
+            <div class="media-item">
+                <video 
+                    src="${item.src}" 
+                    controls 
+                    playsinline
+                    style="max-height: 100%; width: auto;">
+                </video>
+            </div>`;
     }).join('');
 
     track.style.transform = `translateX(0)`;

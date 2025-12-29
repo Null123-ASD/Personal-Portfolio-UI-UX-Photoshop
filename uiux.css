@@ -133,6 +133,15 @@ html, body {
   border: none;
 }
 
+.media-item video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  background: #000; 
+  border-radius: 4px; 
+}
+
+
 .carousel-btns {
   margin-top: 25px;
   display: flex;
@@ -278,7 +287,7 @@ html, body {
   }
 }
 
-@media screen and (max-height: 850px), screen and (max-width: 1400px) {
+@media screen and (max-height: 1000px), screen and (max-width: 1400px) {
   .main-viewport {
     height: auto;
     min-height: 80vh;
