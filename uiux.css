@@ -110,17 +110,11 @@ html, body {
   width: 33.333%;
   height: 100%;
 
-  background-color: #000 !important;
   padding: 20px; 
   box-sizing: border-box; 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  flex-shrink: 0; 
-  overflow: hidden;
-
-  transform: translateZ(0);
 }
 
 .media-item img, .media-item video {
@@ -128,24 +122,15 @@ html, body {
   height: 100%;
 
   object-fit: contain; 
-  object-position: center center;
-
-  display: block;  
-  margin: 0 auto;
+ 
   position: relative; 
   top: 0;
   left: 0;
   transform: none;
-  
-  background-color: #000 !important; 
-  background: #000 !important;
+
   -webkit-backface-visibility: hidden; 
-  border-radius: 4px;
   outline: none;
   border: none;
-
-  webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
 }
 
 .media-item video {
