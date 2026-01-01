@@ -76,15 +76,12 @@ function updateContent(projectId) {
         }
         return `
             <div class="media-item">
-                <div class="video-wrapper">
-                    <video 
-                        src="${item.src}" 
-                        controls
-                        playsinline
-                        webkit-playsinline
-                        muted   
-                    ></video>
-                </div>
+                <video 
+                    src="${item.src}" 
+                    controls 
+                    playsinline
+                    style="max-height: 100%; width: auto;">
+                </video>
             </div>`;
     }).join('');
 
