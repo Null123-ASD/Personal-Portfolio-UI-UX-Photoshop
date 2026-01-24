@@ -329,7 +329,7 @@ nav a.active {
 ////////////////// */
 
 
-@media (max-width: 1600px) {
+@media (max-width: 1720px) {
   .graphic-slice:nth-child(4) {
     display: none; 
   }
