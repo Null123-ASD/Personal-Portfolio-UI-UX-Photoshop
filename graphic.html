@@ -24,21 +24,94 @@
   
   <div class="carousel-container">
     <div class="carousel-track">
-      <div class="carousel-item" data-description="Fashion & Art - Original Character"><img src="image_ps/DB/1.jpg" alt="1" loading="lazy"
-     decoding="async"></div>
-      <div class="carousel-item" data-description="Art Posters - Little Elf"><img src="image_ps/DB/14.jpg" alt="2" loading="eager"
-     decoding="async"></div>
-      <div class="carousel-item" data-description="Restaurant Promotion - Poster"><img src="image_ps/DB/20.jpg" alt="3"></div>
-      <div class="carousel-item" data-description="Summer Soul 2023 - KUUGA(Ultimate Form)"><img src="image_ps/DB/10.jpg" alt="4"></div>
-      <div class="carousel-item" data-description="Fashion & Art - Fashionable Aunt"><img src="image_ps/DB/4.jpg" alt="5"></div>
-      <div class="carousel-item" data-description="Adobe Creative Cloud - Photoshop"><img src="image_ps/DB/43.jpg" alt="6"></div>
-      <div class="carousel-item" data-description="Art Posters - Walking with Insects"><img src="image_ps/DB/22.jpg" alt="7"></div>
+      <div class="carousel-item" 
+        data-title="Perfect - Illustration Design"
+        data-objective="Explore the tension between perfection and individuality through stylized portraiture and graphic composition."
+        data-approach="Integrating geometric elements, bold typography, and symbolic character design to evoke a futuristic aesthetic."
+        data-tools="Photoshop / Digital Illustration / Visual Identity Experimentation &#10; ">
+        <img src="image_ps/DB/13.jpg" alt="1" loading="lazy"decoding="async">
+      </div>
+
+      <div class="carousel-item" 
+        data-title="Art Posters - Little Elf"
+        data-objective="Capture the vibrant essence and liberated spirit of a hummingbird as a tiny, radiant symbol of freedom."
+        data-approach="Grid-based layout with fragmented empty cells + poetic text integration + dynamic iridescent hummingbird as focal point, blending minimalism with lively energy."
+        data-tools="Photoshop / Digital collage & typography &#10; Evocative mood achieved through contrast and negative space.">
+        <img src="image_ps/DB/14.jpg" alt="2" loading="eager"decoding="async">
+      </div>
+
+      <div class="carousel-item" 
+        data-title="Restaurant Promotion - Poster"
+        data-objective="Promote a gourmet filet mignon dish with an elegant, appetite-driven visual that highlights fresh ingredients, luxurious presentation, and a limited-time 20% signature discount."
+        data-approach="Dark moody background + overlapping gourmet food photography + layered, distressed typography for a premium yet approachable fine-dining feel; strategic text placement to guide eye from dish → offer → quote."
+        data-tools="Photoshop / Stock food photography / Typographic overlays  &#10; Successful luxurious yet inviting tone;Successful luxurious yet inviting tone; discount stands out clearly.">
+        <img src="image_ps/DB/20.jpg" alt="3">
+      </div>
+
+      <div class="carousel-item" 
+        data-title="Summer Soul 2023 - KUUGA(Ultimate Form)"
+        data-objective="Promote the Summer Soul 2023 Toys & Games Fair in Hong Kong, spotlighting Masked Rider Kuuga Ultimate Form as the iconic hero centerpiece to attract tokusatsu fans and collectors."
+        data-approach="Dark cosmic background with red sun motif + dramatic full-body Kuuga pose + bold vertical/horizontal type hierarchy in crimson & gold; smoky effects and cracked texture to evoke heroic intensity and event energy."
+        data-tools="Photoshop / Figure photography composite / Typographic distortion  &#10; Powerful hero worship vibe achieved with strong color contrast and dynamic composition.">
+        <img src="image_ps/DB/10.jpg" alt="4">
+      </div>
+
+      <div class="carousel-item" 
+        data-title="Fashion & Art - Fashionable Aunt"
+        data-objective="Celebrate timeless, confident fashion as an empowering expression of modern femininity, positioning the design as bold, unforgettable style for the contemporary woman."
+        data-approach="High-contrast black-and-white portrait + oversized, fragmented typography that integrates with the figure + elegant serif subtitle for sophistication; minimal color to emphasize attitude, luxury accessories, and raw confidence."
+        data-tools="Photoshop / High-res portrait retouching / Typographic layering &#10; Iconic, empowering mood captured through scale and negative space; text feels integrated rather than overlaid.">
+        <img src="image_ps/DB/4.jpg" alt="5">
+      </div>
+
+      <div class="carousel-item" 
+        data-title="Adobe Creative Cloud - Photoshop"
+        data-objective="Create a modern, nostalgic tribute to Adobe Photoshop as a powerful creative tool, visualized as a sleek 2025 software “disc” to evoke innovation, imagination, and digital artistry."
+        data-approach="Circular CD/DVD-inspired composition + gradient blue sky background + scattered iconic tool icons + bold typographic integration around the disc edge; clean, futuristic layout with subtle depth and reflection effects."
+        data-tools="Photoshop / Vector shapes / Gradient mapping &#10; Successful blend of retro disc aesthetic with contemporary branding; strong focal point and tool symbolism.">
+        <img src="image_ps/DB/43.jpg" alt="6">
+      </div>
+
+      <div class="carousel-item" 
+        data-title="Art Posters - Walking with Insects"
+        data-objective="Illustrate the core principle of good design through a simple, memorable visual metaphor: balancing playful aesthetics with clean functionality."
+        data-approach="Red grid background for structured functionality + oversized white swoosh for dynamic aesthetics + centered ladybug as a charming, unexpected focal symbol; minimal text hierarchy with deliberate spacing for readability and impact."
+        data-tools="Photoshop / Vector illustration & grid layout &#10; Effective contrast between organic (ladybug/swoosh) and geometric (grid) elements achieved; message lands clearly and playfully.">
+        <img src="image_ps/DB/22.jpg" alt="7">
+      </div>
+      
       <div id="image-modal" class="modal">
         <span class="close-modal">&times;</span>
-        <div class="modal-content">
-            <img id="modal-img" src="" alt="Full View">
-            <div id="modal-caption" class="modal-caption"></div>
+        <div class="modal-content modal-split">
+    
+          <!-- 圖片 -->
+          <div class="modal-image">
+              <img id="modal-img" src="" alt="Full View">
+          </div>
+
+          <!--文字介紹 -->
+          <div class="modal-text">
+              <h3 id="modal-title"></h3>
+
+              <div class="modal-section">
+                  <h4>Objective</h4>
+                  <p id="modal-objective"></p>
+              </div>
+
+              <div class="modal-section">
+                  <h4>Approach</h4>
+                  <p id="modal-approach"></p>
+              </div>
+
+              <div class="modal-section">
+                  <h4>Tools & Reflection</h4>
+                  <p id="modal-tools"></p>
+              </div>
+          </div>
         </div>
+
+
+
       </div>
     </div>
     

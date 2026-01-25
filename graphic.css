@@ -139,6 +139,7 @@ body.graphic-page {
   border-color: var(--accent-red);
 }
 
+
 /* --- 彈窗 (Modal) 樣式 --- */
 .modal {
   display: none; /* 預設隱藏 */
@@ -193,12 +194,61 @@ body.graphic-page {
   font-weight: 200;
   cursor: pointer;
   transition: 0.3s;
+  z-index: 3000;
 }
 
 .close-modal:hover {
   color: var(--accent-red);
  
 }
+
+
+/* Modal 左右分欄 */
+.modal-content.modal-split {
+  display: flex;
+  gap: 40px;
+  max-width: 90%;
+  max-height: 80%;
+  align-items: center;
+}
+
+.modal-image img {
+  max-width: 45vw;
+  max-height: 70vh;
+  border-radius: 4px;
+}
+
+
+.modal-text {
+  max-width: 400px;
+  text-align: left;
+}
+
+.modal-text h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.modal-section {
+  margin-bottom: 16px;
+}
+
+.modal-section h4 {
+  font-size: 14px;
+  color: var(--accent-red);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.modal-section p {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+
 
 /* --- branding  --- */
 .branding-showcase {
@@ -348,6 +398,26 @@ body.graphic-page {
   
   .main-image-wrapper {
     height: 300px;
+  }
+
+  .modal-content.modal-split {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .modal-image img {
+    max-width: 90%;
+  }
+
+  .modal-text {
+    max-width: 100%;
+  }
+
+  .close-modal {
+    position: fixed;          
+    top: 16px;
+    right: 16px;
+    font-size: 40px;
   }
 
 

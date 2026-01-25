@@ -19,6 +19,7 @@ function rafThrottle(fn) {
     };
 }
 
+
 /* =======================
    Visual Communication Design
    Carousel + Modal
@@ -32,6 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.querySelector('.control-btn.next');
     const prevBtn = document.querySelector('.control-btn.prev');
     const visualSection = document.querySelector('.visual-comm');
+    const modalTitle = document.getElementById('modal-title');
+    const modalObjective = document.getElementById('modal-objective');
+    const modalApproach = document.getElementById('modal-approach');
+    const modalTools = document.getElementById('modal-tools');
 
     let activeIndex = 3;
 
@@ -61,7 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (diff === 0) {
                 modalImg.src = imgSrc;
-                modalCaption.textContent = item.dataset.description || '';
+
+                modalTitle.textContent = item.dataset.title || '';
+                modalObjective.textContent = item.dataset.objective || '';
+                modalApproach.textContent = item.dataset.approach || '';
+                modalTools.textContent = item.dataset.tools || '';
+
                 modal.classList.add('active');
             } else {
                 activeIndex = index;
