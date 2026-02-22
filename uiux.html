@@ -15,34 +15,43 @@
     <h1 class="main-title">UI / UX DESIGN</h1>
   </header>
 
-  <nav class="side-nav">
+  <nav class="top-nav">
     <ul>
       <li class="nav-item active" data-target="random">Random Gifts App</li>
+      <li class="nav-divider">|</li>
       <li class="nav-item" data-target="tts">Android TTS OCR</li>
+      <li class="nav-divider">|</li>
       <li class="nav-item" data-target="portfolio">Personal Portfolio</li>
     </ul>
   </nav>
 
   <main class="main-viewport">
-  <section class="showcase-container">
-    <div class="display-side">
-      <h2 class="app-label" id="appLabel">Random Gifts App</h2>
-      <div class="phone-mockup">
-        <div class="media-track" id="mediaTrack">
-          </div>
+    <section class="grid-container">
+      
+      <div class="grid-row">
+        <div class="pane media-pane" id="row1-img"></div>
+        <div class="slant-divider slant-right"></div>
+        <div class="pane words-pane" id="row1-words"></div>
       </div>
-      <div class="carousel-btns">
-        <button class="nav-circle" id="prevBtn">←</button>
-        <button class="nav-circle" id="nextBtn">→</button>
-      </div>
-    </div>
 
-    <div class="info-side">
-      <div class="desc-content" id="textContent">
-        </div>
-    </div>
-  </section>
-</main>
+      <div class="grid-row">
+        <div class="pane media-pane" id="row2-img" style="flex: 1; align-items: center; justify-content: center; padding: 5%;"></div>
+      </div>
+
+      <div class="grid-row">
+        <div class="pane media-pane" id="row3-img"></div>
+        <div class="slant-divider slant-right"></div>
+        <div class="pane words-pane" id="row3-words"></div>
+      </div>
+
+      <div class="grid-row">
+        <div class="pane words-pane" id="row4-words"></div>
+        <div class="slant-divider slant-left"></div>
+        <div class="pane media-pane" id="row4-demo"></div>
+      </div>
+
+    </section>
+  </main>
 
   <script src="uiux.js"></script>
 </body>
