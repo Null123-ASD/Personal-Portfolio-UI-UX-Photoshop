@@ -42,7 +42,7 @@ const projectData = {
         media: [
             { type: 'img', src: 'image_ps/UIUX/51.jpg' },
             { type: 'img', src: 'image_ps/UIUX/g1.jpg' },    
-            { type: 'img', src: 'image_ps/UIUX/40.jpg' },
+            { type: 'img', src: 'image_ps/UIUX/40.png' },
             { type: 'video', src: 'image_ps/UIUX/p1.mp4' }
         ],
         title: "DIGITAL EXPERIENCE",
