@@ -465,3 +465,80 @@ body.graphic-page {
     margin-top: 60px; 
   }
 }
+
+
+/* =======================
+   Featured Wide Banner
+   ======================= */
+
+.featured-wide-banner {
+  margin: 40px 0 90px;
+}
+
+.wide-banner-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wide-banner-slider {
+  position: relative;
+  width: min(100%, 1170px);
+  aspect-ratio: 1170 / 308;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #111;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.wide-banner-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.wide-banner-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wide-banner-slide img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+
+@media (max-width: 992px) {
+  .featured-wide-banner {
+    margin: 30px 0 70px;
+  }
+
+  .wide-banner-slider {
+    width: min(100%, 960px);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .featured-wide-banner {
+    margin: 24px 0 56px;
+  }
+
+  .wide-banner-slider {
+    width: min(100%, 92vw);
+    border-radius: 8px;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .wide-banner-slider {
+    width: min(100%, 92vw);
+    max-width: 520px;
+  }
+}

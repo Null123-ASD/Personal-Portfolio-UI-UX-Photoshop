@@ -154,3 +154,59 @@ thumbItems.forEach(thumb => {
         }, 250);
     });
 });
+
+
+/* =======================
+   Featured Wide Banner
+   Auto Play + Hover Pause
+   ======================= */
+document.addEventListener('DOMContentLoaded', () => {
+    const bannerSlider = document.getElementById('wideBannerSlider');
+    if (!bannerSlider) return;
+
+    const slides = bannerSlider.querySelectorAll('.wide-banner-slide');
+    if (!slides.length) return;
+
+    let currentIndex = 0;
+    let autoPlay = null;
+    const intervalTime = 3500;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    }
+
+    function startAutoPlay() {
+        stopAutoPlay();
+        autoPlay = setInterval(nextSlide, intervalTime);
+    }
+
+    function stopAutoPlay() {
+        if (autoPlay) {
+            clearInterval(autoPlay);
+            autoPlay = null;
+        }
+    }
+
+    slides.forEach(slide => {
+        const img = slide.querySelector('img');
+        if (img && img.src) {
+            preloadImage(img.src);
+        }
+    });
+
+    showSlide(currentIndex);
+    startAutoPlay();
+
+    bannerSlider.addEventListener('mouseenter', stopAutoPlay);
+    bannerSlider.addEventListener('mouseleave', startAutoPlay);
+
+    bannerSlider.addEventListener('touchstart', stopAutoPlay, { passive: true });
+    bannerSlider.addEventListener('touchend', startAutoPlay, { passive: true });
+});
