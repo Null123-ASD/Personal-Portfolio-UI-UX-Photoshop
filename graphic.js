@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentIndex = 0;
     let autoPlay = null;
-    const intervalTime = 3500;
+    const intervalTime = 3000;
 
     function showSlide(index) {
         slides.forEach((slide, i) => {
